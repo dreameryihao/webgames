@@ -13,7 +13,7 @@
             margin: 0;
             padding: 20px;
             font-family: Arial, sans-serif;
-        }
+        } 
         #gameInfo {
             margin-bottom: 20px;
             font-size: 24px;
@@ -22,6 +22,32 @@
             border: 2px solid #333;
             border-radius: 5px;
             background-color: white;
+            margin-bottom: 20px;
+        }
+        #themeSelector {
+            display: flex;
+            gap: 10px;
+        }
+        .theme-button {
+            padding: 10px;
+            font-size: 24px;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-button:hover {
+            background-color: #45a049;
+        }
+        .theme-button.active {
+            background-color: #357a38;
         }
     </style>
 </head>
@@ -30,6 +56,16 @@
         分数: <span id="score">0</span>
     </div>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div id="themeSelector">
+        <button class="theme-button" data-theme="bomb">💣</button>
+        <button class="theme-button" data-theme="ice">🧊</button>
+        <button class="theme-button" data-theme="fruits">🍎</button>
+        <button class="theme-button" data-theme="animals">🐱</button>
+        <button class="theme-button" data-theme="sports">⚽</button>
+        <button class="theme-button" data-theme="weather">☀️</button>
+        <button class="theme-button" data-theme="plants">🌸</button>
+
+    </div>
     <script src="game.js"></script>
 </body>
 </html>

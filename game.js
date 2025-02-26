@@ -6,7 +6,21 @@ class Game {
         this.scoreElement = document.getElementById('score');
         this.gridSize = 8;
         this.blockSize = this.canvas.width / this.gridSize;
-        this.colors = ['😊', '😂', '🥰', '😎', '🤔'];
+        
+        // 定义不同主题的图标
+        this.themes = {
+            bomb: ['💣', '🧨', '💥', '🎇', '🎆'],
+            ice: ['🧊', '❄️', '⚪', '🌨️', '☃️'],
+            fruits: ['🍎', '🍌', '🍇', '🍊', '🍓'],
+            animals: ['🐱', '🐶', '🐼', '🐰', '🐯'],
+            sports: ['⚽', '🏀', '🎾', '⚾', '🏈'],
+            weather: ['☀️', '🌙', '⭐', '☁️', '🌈'],
+            plants: ['🌸', '🌹', '🌻', '🌺', '🌷'],
+            sports: ['⚽', '🏀', '🎾', '⚾', '🏈', '🏸', '🎱', '🏓']
+        };
+        this.currentTheme = 'animals';
+        this.colors = this.themes[this.currentTheme];
+        
         this.grid = [];
         this.selected = null;
         this.isAnimating = false;
@@ -18,6 +32,7 @@ class Game {
         this.initializeGrid();
         this.canvas.addEventListener('click', this.handleClick.bind(this));
         this.startHintTimer();
+        this.initThemeSelector();
     }
 
     initializeGrid() {
@@ -31,6 +46,42 @@ class Game {
                 };
             }
         }
+        this.draw();
+    }
+
+    initThemeSelector() {
+        const themeSelector = document.getElementById('themeSelector');
+        themeSelector.addEventListener('click', (event) => {
+            if (event.target.classList.contains('theme-button')) {
+                const theme = event.target.dataset.theme;
+                this.changeTheme(theme);
+                
+                // 更新按钮状态
+                document.querySelectorAll('.theme-button').forEach(button => {
+                    button.classList.remove('active');
+                });
+                event.target.classList.add('active');
+            }
+        });
+    }
+
+    async changeTheme(theme) {
+        if (this.isAnimating || theme === this.currentTheme) return;
+        
+        this.isAnimating = true;
+        this.currentTheme = theme;
+        this.colors = this.themes[theme];
+    
+        // 直接更新所有方块的颜色
+        for (let i = 0; i < this.gridSize; i++) {
+            for (let j = 0; j < this.gridSize; j++) {
+                if (this.grid[i][j]) {
+                    this.grid[i][j].color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                }
+            }
+        }
+    
+        this.isAnimating = false;
         this.draw();
     }
 
